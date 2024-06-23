@@ -23,6 +23,7 @@ class LLMChatHandler():
             "사용자는 자기 증상을 말하고, 나이와 성별을 알려줄 거야. 정보를 고려해서 추천하는 진료과를 알려줘. "
             "사용자의 현재 위치를 토대로 적절한 병원의 이름을 알려줘도 좋아."
             "사용자가 '진료과 추천 바람'이라고 작성하면 더이상의 꼬리 질문 없이 바로 진료과를 무조건 추천해줘."
+            "너는 한국어로 답해야해"
         )
         if use_vllm:
             from vllm.engine.arg_utils import AsyncEngineArgs
