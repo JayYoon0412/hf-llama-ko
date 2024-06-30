@@ -16,14 +16,16 @@ class LLMChatHandler():
             self.tokenizer.convert_tokens_to_ids("")
         ]
         self.initial_instruction = (
-            "너는 증상에 알맞은 병원을 추천해주는 챗봇이야"
-            "사용자는 아플 때 병원의 세부 분과, 진료과 중 어디를 선택해야할지 알고싶은데 네가 적절한 병원을 추천해줘."
-            "현재 존재하는 진료과는 다음과 같다."
-            "내과에는 호흡기내과, 순환기내과, 소화기내과, 혈액종양내과, 내분비대사내과, 알레르기내과, 신장내과, 감염내과, 류마티스내과, 내과(일반), 내과(입원의학)로 총 11개의 진료과가 존재한다.외과에는 간담췌외과, 대장항문외과, 이식혈관외과, 위장관외과, 유방내분비외과, 외상외과, 외과(일반), 외과(입원의학)로 총 8개의 진료과가 존재한다.그리고 내과와 외과 이외의 과의 경우 산부인과, 마취통증의학과, 비뇨의학과(비뇨기과), 신경외과, 응급의학과, 임상약리학과, 가정의학과, 방사선종양학과, 성형외과, 안과, 의공학과, 임상유전체의학과, 병리과, 신경과, 영상의학과, 이비인후과, 재활의학과, 정신과학의학과, 진단검사의학과, 흉부외과, 정형외과, 피부과, 중환자의학과, 핵의학과 등이 존재한다.",
+            "너는 증상에 알맞은 병원을 추천해주는 챗봇이야. "
+            "사용자는 아플 때 병원의 세부 분과, 진료과 중 어디를 선택해야할지 알고싶은데 네가 적절한 병원을 추천해줘. "
+            "현재 존재하는 진료과는 다음과 같다. "
+            "내과에는 호흡기내과, 순환기내과, 소화기내과, 혈액종양내과, 내분비대사내과, 알레르기내과, 신장내과, 감염내과, 류마티스내과, 내과(일반), 내과(입원의학)로 총 11개의 진료과가 존재한다. "
+            "외과에는 간담췌외과, 대장항문외과, 이식혈관외과, 위장관외과, 유방내분비외과, 외상외과, 외과(일반), 외과(입원의학)로 총 8개의 진료과가 존재한다. "
+            "그리고 내과와 외과 이외의 과의 경우 산부인과, 마취통증의학과, 비뇨의학과(비뇨기과), 신경외과, 응급의학과, 임상약리학과, 가정의학과, 방사선종양학과, 성형외과, 안과, 의공학과, 임상유전체의학과, 병리과, 신경과, 영상의학과, 이비인후과, 재활의학과, 정신과학의학과, 진단검사의학과, 흉부외과, 정형외과, 피부과, 중환자의학과, 핵의학과 등이 존재한다. "
             "사용자는 자기 증상을 말하고, 나이와 성별을 알려줄 거야. 정보를 고려해서 추천하는 진료과를 알려줘. "
-            "사용자의 현재 위치를 토대로 적절한 병원의 이름을 알려줘도 좋아."
-            "사용자가 '진료과 추천 바람'이라고 작성하면 더이상의 꼬리 질문 없이 바로 진료과를 무조건 추천해줘."
-            "너는 한국어로 답해야해"
+            "사용자의 현재 위치를 토대로 적절한 병원의 이름을 알려줘도 좋아. "
+            "사용자가 '진료과 추천 바람'이라고 작성하면 더이상의 꼬리 질문 없이 바로 진료과를 무조건 추천해줘. "
+            "너는 한국어로 답해야해."
         )
         if use_vllm:
             from vllm.engine.arg_utils import AsyncEngineArgs
@@ -136,13 +138,12 @@ def main(args):
 
     demo.queue().launch(server_name="0.0.0.0", server_port=args.port)
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog="OSS Chatbot",
         description="Run open source LLMs from HuggingFace with a simple chat interface")
 
-    parser.add_argument("--model-id", default="casperhansen/llama-3-8b-instruct-awq", help="HuggingFace model name for LLM.")
+    parser.add_argument("--model-id", default="maywell/Llama-3-Ko-8B-Instruct", help="HuggingFace model name for LLM.")
     parser.add_argument("--port", default=7860, type=int, help="Port number for the Gradio app.")
     parser.add_argument("--use-vllm", action="store_true", help="Use vLLM instead of HuggingFace AutoModelForCausalLM.")
     parser.add_argument("--tensor-parallelism", default=1, type=int, help="Number of tensor parallelism.")
