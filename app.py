@@ -51,7 +51,6 @@ When the user inputs the keyword "Recommend", Based on the information provided,
 사용자의 현재 위치를 토대로 적절한 병원의 이름을 알려줘도 좋아.
 사용자가 "진료과 추천 바람"이라고 작성하면 더이상의 꼬리 질문 없이 바로 진료과를 무조건 추천해줘.
 """
-
         )
         if use_vllm:
             from vllm.engine.arg_utils import AsyncEngineArgs
@@ -92,10 +91,12 @@ When the user inputs the keyword "Recommend", Based on the information provided,
         if self.use_vllm:
             response_generator = self.chat_function_vllm(prompt)
             async for text in response_generator:
+                text = self.filter_text(text)  # Filter the text
                 yield text
         else:
             response_generator = self.chat_function_hf(prompt)
             for text in response_generator:
+                text = self.filter_text(text)  # Filter the text
                 yield text
 
     async def chat_function_vllm(self, prompt):
@@ -123,7 +124,7 @@ When the user inputs the keyword "Recommend", Based on the information provided,
             model=self.hf_model,
             tokenizer=self.tokenizer,
             eos_token_id=self.terminators,
-            max_length=2048,
+            max_length=2048,  # Control maximum tokens here
             temperature=0.6,
             top_p=0.9,
             repetition_penalty=1.2,
@@ -139,6 +140,12 @@ When the user inputs the keyword "Recommend", Based on the information provided,
             yield generated_text
 
         t.join()
+
+    def filter_text(self, text: str) -> str:
+        # Post-processing step to remove unwanted emojis and special characters
+        import re
+        text = re.sub(r'[^\w\s,.?!-]', '', text)  # Allow only alphanumeric characters and some punctuation
+        return text
 
 def close_app():
     gr.Info("Terminated the app!")
